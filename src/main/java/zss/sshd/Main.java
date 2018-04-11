@@ -2,6 +2,7 @@ package zss.sshd;
 
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
+import java.security.Security;
 import java.util.LinkedList;
 
 import org.apache.sshd.server.SshServer;
@@ -11,6 +12,8 @@ import org.bouncycastle.jce.provider.BouncyCastleProvider;
 public class Main {
     public static void main(String[] args) throws Exception {
         final BouncyCastleProvider provider = new BouncyCastleProvider();
+        Security.addProvider(provider);
+
         final KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA", provider);
         keyPairGenerator.initialize(1024);
         final KeyPair keyPair = keyPairGenerator.generateKeyPair();

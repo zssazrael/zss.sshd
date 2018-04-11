@@ -44,13 +44,21 @@ public class PasswordAuthenticator extends StaticPasswordAuthenticator {
                     dropIP6(host);
                 }
                 hostMap.remove(host);
+                try {
+                    session.close();
+                } catch (IOException e) {
+                    LOGGER.error(e.getMessage(), e);
+                }
             }
         }
-        try {
-            session.close();
-        } catch (IOException e) {
-            LOGGER.error(e.getMessage(), e);
+    }
+
+    private String toString(final List<String> command) {
+        final StringBuilder builder = new StringBuilder();
+        for (String string : command) {
+            builder.append(string).append(" ");
         }
+        return builder.toString();
     }
 
     private void dropIP6(String host) {
@@ -62,6 +70,7 @@ public class PasswordAuthenticator extends StaticPasswordAuthenticator {
         command.add(host);
         command.add("-j");
         command.add("DROP");
+        LOGGER.info(toString(command));
         final ProcessBuilder builder = new ProcessBuilder(command);
         builder.redirectErrorStream(true);
         builder.redirectErrorStream(true);
@@ -85,6 +94,7 @@ public class PasswordAuthenticator extends StaticPasswordAuthenticator {
         command.add(host);
         command.add("-j");
         command.add("DROP");
+        LOGGER.info(toString(command));
         try {
             final Process process = builder.start();
             try {
@@ -108,6 +118,7 @@ public class PasswordAuthenticator extends StaticPasswordAuthenticator {
         command.add(host);
         command.add("-j");
         command.add("DROP");
+        LOGGER.info(toString(command));
         final ProcessBuilder builder = new ProcessBuilder(command);
         builder.redirectErrorStream(true);
         builder.redirectErrorStream(true);
@@ -131,6 +142,7 @@ public class PasswordAuthenticator extends StaticPasswordAuthenticator {
         command.add(host);
         command.add("-j");
         command.add("DROP");
+        LOGGER.info(toString(command));
         try {
             final Process process = builder.start();
             try {
